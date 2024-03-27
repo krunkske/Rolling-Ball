@@ -1,0 +1,71 @@
+[gd_scene load_steps=15 format=3 uid="uid://dq7w3gf6wdmye"]
+
+[ext_resource type="PackedScene" uid="uid://dvk5dwhlql61a" path="res://scenes/ball.tscn" id="1_4y7uu"]
+[ext_resource type="Script" path="res://scripts/main.gd" id="1_tgdtw"]
+[ext_resource type="Shader" path="res://scripts/shaders/water.gdshader" id="3_4se18"]
+[ext_resource type="Material" uid="uid://cnnfj7r0nenoo" path="res://scenes/sky.tres" id="3_ojamk"]
+[ext_resource type="PackedScene" uid="uid://ba8t83y8mmy2f" path="res://scenes/levels/level_base.tscn" id="5_rtjtt"]
+[ext_resource type="PackedScene" uid="uid://c7146icqh1vxs" path="res://scenes/UI/loading_screen.tscn" id="6_xrsxl"]
+[ext_resource type="PackedScene" uid="uid://cnseluqtui655" path="res://scenes/UI/finish_screen.tscn" id="7_3u8vj"]
+
+[sub_resource type="Sky" id="Sky_u8hm7"]
+sky_material = ExtResource("3_ojamk")
+
+[sub_resource type="Environment" id="Environment_gecrn"]
+background_mode = 2
+sky = SubResource("Sky_u8hm7")
+ssao_enabled = true
+ssil_enabled = true
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_24lbh"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_fmsln"]
+seamless = true
+noise = SubResource("FastNoiseLite_24lbh")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_cd7x3"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_q74i4"]
+width = 1024
+height = 1024
+seamless = true
+noise = SubResource("FastNoiseLite_cd7x3")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_40kt1"]
+render_priority = 0
+shader = ExtResource("3_4se18")
+shader_parameter/WaveSpeed = 0.01
+shader_parameter/WaveIntensity = 0.2
+shader_parameter/WaveColor = Color(0.835294, 1, 0.992157, 1)
+shader_parameter/WaterColor = Color(0.309804, 0.517647, 1, 1)
+shader_parameter/FoamSize = 0.4
+shader_parameter/WaterOpacity = 1.0
+shader_parameter/tex_frg_19 = SubResource("NoiseTexture2D_q74i4")
+shader_parameter/tex_frg_11 = SubResource("NoiseTexture2D_fmsln")
+
+[node name="main" type="Node"]
+script = ExtResource("1_tgdtw")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866024, -0.433016, 0.25, 0.431586, -0.394916, 0.811034, -0.252461, 0.810271, 0.52889, -1.13362, 7.05924, 1.17665)
+shadow_enabled = true
+shadow_blur = 2.0
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_gecrn")
+
+[node name="waterBox" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4.5, 0)
+size = Vector3(200, 10, 200)
+material = SubResource("ShaderMaterial_40kt1")
+
+[node name="player" parent="." instance=ExtResource("1_4y7uu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.236774, 2.83074, 0)
+
+[node name="level_base" parent="." instance=ExtResource("5_rtjtt")]
+
+[node name="GUI" type="Node" parent="."]
+
+[node name="loading_screen" parent="GUI" instance=ExtResource("6_xrsxl")]
+
+[node name="finish_screen" parent="GUI" instance=ExtResource("7_3u8vj")]

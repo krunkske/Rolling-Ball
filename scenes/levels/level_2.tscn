@@ -1,0 +1,35 @@
+[gd_scene load_steps=3 format=3 uid="uid://58amocco82k5"]
+
+[ext_resource type="MeshLibrary" uid="uid://yu4v5merjj1" path="res://meshLIb/MeshLibrary.tres" id="1_0xvrs"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ok04u"]
+size = Vector3(3.2, 0.1, 3.2)
+
+[node name="level_base" type="Node3D"]
+
+[node name="GridMap" type="GridMap" parent="."]
+mesh_library = ExtResource("1_0xvrs")
+cell_size = Vector3(1.6, 1.6, 1.6)
+cell_center_y = false
+data = {
+"cells": PackedInt32Array(0, 65535, 1, 0, 0, 1, 65535, 0, 1, 65535, 65535, 655364, 65534, 65535, 1, 65534, 0, 1, 65534, 1, 1, 65535, 1, 1, 0, 1, 1, 0, 65534, 1, 65535, 65534, 1, 65534, 65534, 1, 65534, 2, 1, 65535, 2, 1, 0, 2, 655364, 1, 2, 1, 1, 1, 1, 1, 0, 1048581, 1, 65535, 5, 1, 65534, 5, 65534, 3, 655362, 65535, 4, 0, 65535, 3, 1, 0, 4, 0, 1, 4, 1048580, 1, 3, 1, 0, 3, 1, 65534, 4, 1, 65534, 5, 1, 65535, 5, 0, 0, 5, 0, 1, 5, 1, 65538, 65534, 6, 65538, 65535, 6, 65538, 0, 6, 65538, 1, 6, 65538, 2, 6, 65538, 3, 6, 65538, 4, 6, 65538, 5, 6, 131069, 5, 6, 131069, 4, 6, 131069, 3, 6, 131069, 2, 6, 131069, 1, 6, 131069, 0, 6, 131069, 65535, 6, 131069, 65534, 6, 65534, 6, 5, 65535, 6, 1, 1, 6, 655364, 0, 6, 1, 65538, 6, 6, 131069, 6, 6, 2, 7, 7, 2, 65533, 7, 65533, 65533, 7, 65538, 7, 8, 131069, 7, 8, 131069, 65533, 655368, 65538, 65533, 655368, 65533, 7, 7)
+}
+metadata/_editor_floor_ = Vector3(0, 1, 0)
+
+[node name="Spawn" type="Marker3D" parent="."]
+editor_description = "height y:  1.6+0.8 = "
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.4, 0)
+
+[node name="Finish" type="Area3D" parent="."]
+editor_description = "Collision layer 2
+Collision mask 1"
+collision_layer = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Finish"]
+editor_description = "x: 1.6 * block
+y: 0.1
+z: 1.6  * block
+height y: 1.65
+"
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.65, 8)
+shape = SubResource("BoxShape3D_ok04u")
